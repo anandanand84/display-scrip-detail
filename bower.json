@@ -1,0 +1,36 @@
+{
+  "name": "display-scrip-detail",
+  "version": "0.0.0",
+  "authors": [
+    "anand.anand84@gmail.com"
+  ],
+  "description": "Show the scrip details in market watch",
+  "main": "display-scrip-detail.html",
+  "keywords": [
+    "NSE",
+    "Realtime",
+    "Scrip",
+    "Market",
+    "Watch"
+  ],
+  "license": "MIT",
+  "homepage": "traderslab.in",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~1.0.7",
+    "subscribe-scrips": "https://bitbucket.org/anand_aravindan/subscribe-scrips.git#latest",
+    "iron-flex-layout": "PolymerElements/iron-flex-layout",
+    "tlab-icons": "https://bitbucket.org/anand_aravindan/tlab-icons.git#latest",
+    "quote-viewer": "https://anand_aravindan@bitbucket.org/anand_aravindan/quote-viewer.git#latest"
+  },
+  "devDependencies": {
+    "paper-button": "PolymerElements/paper-button#~1.0.3"
+  }
+}

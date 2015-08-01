@@ -1,0 +1,175 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../subscribe-scrips/subscribe-scrips.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../iron-icon/iron-icon.html">'
+<link rel="import" href="../tlab-icons/tlab-icons.html">
+<link rel="import" href="../paper-material/paper-material.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../quote-viewer/quote-viewer.html">
+<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<dom-module id="display-scrip-detail">
+<style>
+:host {
+ display: block;
+ @apply(--layout)
+}
+
+.scriptcode-font {
+    font-family:"Roboto", sans-serif;
+    font-size: 18px;
+    font-weight:bold;
+    margin: 5px;
+}
+
+.scriptname-font{
+    font-family:"Roboto", sans-serif;
+    font-size: 12px;
+    margin: 5px;
+}
+.script-change-font{
+    font-family:"Roboto", sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+iron-icon{
+    width:21px;
+    height:21px;
+}
+
+.up{
+  color:green;  
+}
+
+.down{
+    color:red;
+}
+
+paper-material{
+    padding: 5px;
+    @apply(--layout);
+    @apply(--layout-flex-auto)
+    margin-bottom:5px;
+    margin-top:2px;
+    position: relative;
+}
+
+.corner{
+    position: absolute;
+    top:0px;
+    right:0px;
+}
+
+</style>
+<template>
+
+  <subscribe-scrips id="subElement" scrip="{{scripToRegister}}" last-tick="{{quote}}" on-tick="_onTick"></subscribe-scrips>
+    <paper-material elevation="1">
+      <div class="layout vertical flex">
+        <div class="layout horizontal justified">
+            <div class="layout vertical start">
+                <span class="scriptcode-font">{{quote.scrip}}</span>
+                <div class="layout horizontal start-justified start">
+                    <!-- <span class="scriptname-font">Volume: </span><span class="scriptname-font">{{quote.volume}}</span> -->
+                    <span class="scriptname-font">Ltt: </span><span class="scriptname-font">{{quote.ltt}}</span>
+                </div>
+            </div>
+            <div class="layout vertical justified end">
+                <quote-viewer value="{{quote.ltp}}"></quote-viewer>
+                <div class="layout horizontal end">
+                       <iron-icon hidden$="{{up}}" class="self-center down" icon="tlab-icons:price-down" size="4"></iron-icon>
+                       <iron-icon hidden$="{{!up}}" class="self-center up" icon="tlab-icons:price-up" size="4"></iron-icon>
+                    <span id="change" class="script-change-font">{{quote.change}}</span>
+                    <span id="changepercentbefore" style="margin-right:0px;" class="script-change-font">(</span>
+                    <span id="changepercent" class="script-change-font" style="margin:5px 0px;">{{quote.percentChange}}</span>
+                    <span id="changepercentafter" class="script-change-font" style="margin-left:0px;">)%</span>
+                </div>
+            </div>
+            <div class="layout end self-center">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAAAoCAYAAAB+Qu3IAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAg1JREFUaEPt2D1Iw0AUB/CADgoOrSAUJ5tBHARdxC79wNmhS7GDg0OHKihuCg4JuIiDRYs4tOCouBSKIAja0bGju5ObQxHBJb6/JHJmMWLv7OWe8EgvPfPufj5eDi2Lf1iABViABViABViABVhAksBVaSjdyO2lm9kerhaNJWUy+7HpRvbAbua8IAj82GwRSbu3m9nnEHRPUiqzH8sVrejvn3fyw9Sb95dOSt7C6XIdY0WpzUvjOM6267o3FB3zdq9ox4RMvm4N6eh6RuOqotTmpAEyItgxfU4Q9iNdU+YoSN4pqlhEFrCL9F1LcnozHh+u5PCuCfqC5pTF+zQeoZgxQ6gPu/wJGSnQOvwWguquUTxQvOEehUfxghcnzdvtw5Li94goyEILKaOF4ERCkQlVd4LuFfzvi/GT+sOOfoMcNY3/8uzSdSrq78R6ngxkofIzaC2xBoyyOZnIAva3Y2KUdcVqjgrkAMx/ORZiBRhlMyqRxZMKgZ9T7vkoa9R+jmpkoYXgrL1G2F30bXzG6UQMzO1MWGOdpFW5S1hPuGKsHfp/IYehcCREdaOlhOPaHt+6T1peEMDWChrHrOAfRIO6cFT34ebGe3s69QWNyh7U9Wq9rtacvXNUrXiXi7Of2NpVtC766Mm3k6Pr9dWVV6Br2aN1weZ1sgALsAALsAALsAALsAALsAALsIB8gQ+i9gUJ0S7P2gAAAABJRU5ErkJggg0K">
+            </div>
+            <paper-icon-button icon="tlab-icons:highlight-off" class="self-center" on-tap="stop"></paper-icon-button>
+        </div>
+     </div>
+    </paper-material>
+</template>
+<script>
+Polymer({
+    is: 'display-scrip-detail',
+    properties:{
+        showDetailFor:{
+            type:String,
+            value:'',
+            observer:'_newRegisterationRequested',
+            notify:true
+        },
+        up:{
+            type:Boolean,
+            value:false,
+            notify:true
+        }
+    },
+
+    _newRegisterationRequested:function(){
+        if(this.scrip && this.scrip!='')
+            this.$.subElement.unSubscribeScrips();
+        console.log('Subscription requested for ',this.scrip);
+        this.$.subElement.scrip = this.showDetailFor;
+    },
+
+    display:function(scrip){
+        this.set('scrip',scrip);
+    },
+
+    _onTick:function(event){
+        var quote = event.detail;
+        if(quote.change > 0){
+            this.set('up',true);
+            this.$.change.classList.remove('down');
+            this.$.changepercent.classList.remove('down');
+            this.$.changepercentbefore.classList.remove('down');
+            this.$.changepercentafter.classList.remove('down');
+
+            this.$.change.classList.add('up');
+            this.$.changepercent.classList.add('up');
+            this.$.changepercentbefore.classList.add('up');
+            this.$.changepercentafter.classList.add('up');
+        }else{
+            this.set('up',false);
+            this.$.change.classList.remove('up');
+            this.$.changepercentbefore.classList.remove('up');
+            this.$.changepercentafter.classList.remove('up');
+            this.$.changepercent.classList.remove('up');
+
+            this.$.change.classList.add('down');
+            this.$.changepercent.classList.add('down');
+            this.$.changepercentbefore.classList.add('down');
+            this.$.changepercentafter.classList.add('down');
+        }
+
+    },
+
+    stop:function(){
+        this.$.subElement.unSubscribeScrips();
+         this.$.subElement.removeEventListener('tick',function(tick){
+            console.log('new tick received ',this.listenerMethod);
+        })
+        this.remove();
+    },
+
+    ready:function(){
+        this.listenerMethod = function(tick){
+            console.log('new tick received ',tick);
+        };
+        this.$.subElement.addEventListener('tick',this.listenerMethod);
+    },
+
+    detached:function(){
+        console.log('element removed');
+    }
+
+});
+</script>
+</dom-module>
