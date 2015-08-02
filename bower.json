@@ -28,7 +28,9 @@
     "subscribe-scrips": "https://bitbucket.org/anand_aravindan/subscribe-scrips.git#latest",
     "iron-flex-layout": "PolymerElements/iron-flex-layout",
     "tlab-icons": "https://bitbucket.org/anand_aravindan/tlab-icons.git#latest",
-    "quote-viewer": "https://anand_aravindan@bitbucket.org/anand_aravindan/quote-viewer.git#latest"
+    "quote-viewer": "https://anand_aravindan@bitbucket.org/anand_aravindan/quote-viewer.git#latest",
+    "paper-progress": "PolymerElements/paper-progress#~1.0.2",
+    "paper-material": "PolymerElements/paper-material#~1.0.1"
   },
   "devDependencies": {
     "paper-button": "PolymerElements/paper-button#~1.0.3"
